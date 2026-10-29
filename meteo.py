@@ -1,9 +1,11 @@
 # -*-coding:utf-8 -*-
-from meteofetch import Arome0025 as source
+
 from glob import glob
 import cfgrib
 import subprocess
 
+from meteofetch import Arome0025 as source
+typefic = 'arome'
 
 #Variables de vent à 10 m
 variables = [
@@ -15,13 +17,13 @@ source.get_latest_forecast(paquet='SP1', path='.')
 #datasets=source.get_latest_forecast(paquet='SP1', variables=variables)
 
 
-fichiers = sorted(glob("arome*.grib2"))
+fichiers = sorted(glob(f'{typefic}__*.grib2'))
 
 subprocess.run(
-    ["grib_copy", *fichiers, "arome-all.grib2"],
+    ['grib_copy', *fichiers, f'{typefic}-all.grib2'],
     check=True)
 
-subprocess.run(['wgrib2', 'arome-all.grib2',
+subprocess.run(['wgrib2', f'{typefic}-all.grib2',
                 '-small_grib', '5.0:6.2',  '41.95:43.28',
                 'toulon.grib2'], check=True)
 
