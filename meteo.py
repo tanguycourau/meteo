@@ -34,7 +34,7 @@ subprocess.run(
 subprocess.run(['wgrib2', f'{typefic}-all.grib2',
                 '-small_grib', '5.0:7.0',  '42.0:43.5',
                 f'{typefic}-toulon.grib2'], check=True)
-print(f'{typefic-toulon.grib2 géneré')
+print(f'{typefic}-toulon.grib2 géneré')
 
 # #### ATENTION si le grib est trop gros xygrib refuse de l'afficher ####
 print(f'grib_copy -w shortName=10u/10v/si10/gust/prmsl/2t/tp/CAPE_INS {typefic}-toulon.grib2 {typefic}-toulon-short.grib2')
