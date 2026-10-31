@@ -3,9 +3,17 @@
 from glob import glob
 import cfgrib
 import subprocess
+import meteofetch
 
-from meteofetch import Arome0025 as source
-typefic = 'arome'
+
+## Attention les fichiers ECMWF sont trop gros intérêt à travailler sur la requete pour être sélectif
+from meteofetch import Ifs as source # ECMWF 
+typefic='oper'
+
+# grib_ls -p shortName 20261031000000-0h-oper-fc.grib2 | grep -E '10u|10v|tp|prmsl|cape'
+
+# from meteofetch import Arome0025 as source
+# typefic = 'arome'
 
 # from meteofetch import Arpege025 as source
 # typefic = 'arpege'
@@ -18,14 +26,16 @@ typefic = 'arome'
 # CAPE : orage dans le paquet SP2
 
 ##datasets=source.get_latest_forecast(paquet='SP1', variables=variables)
-
-source.get_latest_forecast(paquet='SP1', path='.')
-source.get_latest_forecast(paquet='SP2', path='.')
+# source.get_latest_forecast(paquet='SP1', path=typefic)
+# source.get_latest_forecast(paquet='SP2', path=typefic)
 
 print(f'fin extraction meteofetch')
 
 
-fichiers = sorted(glob(f'{typefic}__*.grib2'))
+
+
+fichiers = sorted(glob(f'{typefic}/*.grib2'))
+sorted(fichiers, key=lambda stg: int(stg.split('-')[1][:-1]))
 
 subprocess.run(
     ['grib_copy', *fichiers, f'{typefic}-all.grib2'],
